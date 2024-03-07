@@ -68,14 +68,13 @@ const FormComponent = props => {
       task_id: activity.activeTask.task_id,
       group_id: activeGroupId,
       user_id: authUser.user_id,
-      completed: parseFloat(completed),
+      completed: parseFloat(completed || 0),
       stocks: [],
       contractor_id: null,
       images: JSON.stringify(uploadedUrls),
       files: [],
       metadata: JSON.stringify(remarks),
     };
-
     axiosInstance(token)
       .post('/taskCompleted', submitData)
       .then(({data}) => {
@@ -89,7 +88,7 @@ const FormComponent = props => {
         );
         const newArr = newObj[activeGroupId].map(item => {
           if (item.task_id === activity.activeTask.task_id) {
-            return {...item, completed: item.completed + completed};
+            return {...item, completed: item.completed + (completed || 0)};
           }
           return item;
         });

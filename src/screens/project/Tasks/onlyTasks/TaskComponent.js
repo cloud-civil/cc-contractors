@@ -18,11 +18,12 @@ import {CustomButton} from '../../../../components/CustomButton';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import EditTaskModal from './EditTaskModal';
+import {GoBack} from '../../../../components/HeaderButtons';
 
-const TaskComponent = props => {
+const TaskComponent = ({route}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const {activeGroupId, project_id, activeGroup} = props;
+  const {activeGroupId, project_id, activeGroup} = route.params;
   const stocks__ = useSelector(
     state => state.stock.stocks[project_id],
     shallowEqual,
@@ -93,6 +94,27 @@ const TaskComponent = props => {
 
   return (
     <>
+      <View style={{paddingTop: 44, backgroundColor: 'white'}} />
+      <View
+        style={{
+          paddingBottom: 10,
+          flexDirection: 'row',
+          alignItems: 'center',
+
+          backgroundColor: 'white',
+        }}>
+        <GoBack onClick={() => navigation.goBack()} />
+        <View>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: '500',
+              color: '#3e3e3e',
+            }}>
+            {activeGroup}
+          </Text>
+        </View>
+      </View>
       <View style={styles.container}>
         {tasks && tasks[activeGroupId] && permission.read ? (
           <FlatList

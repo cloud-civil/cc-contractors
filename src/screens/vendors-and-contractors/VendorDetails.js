@@ -35,7 +35,6 @@ const VendorDetails = ({route}) => {
   };
 
   useEffect(() => {
-    console.log('ran');
     axiosInstance(token)
       .get(`/getVendorByVendorId?vendor_id=${activeVendor__.vendor_id}`)
       .then(({data}) => {

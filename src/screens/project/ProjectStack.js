@@ -22,7 +22,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {GroupTaskCategories} from './Tasks/utils';
 import {setTaskCategories, setTaskStocks} from '../../cc-hooks/src/taskSlice';
 import TaskScreen from './Tasks/TaskScreen';
-import TaskAndStockNavigation from './Tasks/TaskAndStockNavigation';
 import TaskDoneHistory from './Tasks/TaskdoneHistory';
 import TaskStockHistory from './Tasks/TaskStockHistory';
 import TaskDoneDetails from './Tasks/TaskDoneDetails';
@@ -42,6 +41,7 @@ import IssueCommnet from './Issues/comments/IssueCommnet';
 import VendorAttendance from './Attendance/VendorAttendance';
 import AttendanceScreen from './Attendance/AttendanceScreen';
 import StockIssueHistory from './Stocks/in-hand/StockIssueHistory';
+import TaskComponent from './Tasks/onlyTasks/TaskComponent';
 
 const Stack = createStackNavigator();
 
@@ -63,10 +63,9 @@ const ProjectStack = ({route}) => {
           `/pem/getAllUserTablePermissions?project_id=${project_id}&user_id=${authUser.user_id}`,
         )
         .then(({data}) => {
-          console.log('getAllUserTablePermissions');
           dispatch(setPermissions(data.data));
         })
-        .catch(err => console.error('getAllUserTablePermissions', err));
+        .catch(err => console.error(err, '/getAllUserTablePermissions'));
     }
   }, [project_id]);
 
@@ -311,8 +310,8 @@ const ProjectStack = ({route}) => {
         initialParams={route.params}
       />
       <Stack.Screen
-        name="TaskAndStock"
-        component={TaskAndStockNavigation}
+        name="TaskComponent"
+        component={TaskComponent}
         initialParams={route.params}
         options={{
           headerShown: false,

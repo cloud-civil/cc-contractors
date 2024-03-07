@@ -23,6 +23,7 @@ import Colors from '../../../styles/Colors';
 import {getPermissions} from '../../../utils';
 import Toast from 'react-native-toast-message';
 import {CreateTaskCategoryModal} from './CreateTaskCategoryModal';
+import CategoryCard from './cards/CategoryCard';
 
 const TaskCategories = ({
   token,
@@ -42,13 +43,8 @@ const TaskCategories = ({
   const pems = useSelector(state => state.auth.permissions, shallowEqual);
   const x = getPermissions(pems, 1018);
   const permission = x && JSON.parse(x.permission);
-  const taskStocks = useSelector(state => state.task.taskStocks, shallowEqual);
-  const stocks__ = useSelector(
-    state => state.stock.stocks[project_id],
-    shallowEqual,
-  );
+
   const [showCategoryModal, setShowCategoryModal] = useState(false);
-  const stocks = (stocks__ && stocks__.asObject) || [];
   const [listView, setListView] = useState(true);
 
   const canDeleteCategory =
@@ -60,7 +56,7 @@ const TaskCategories = ({
 
   const deleteCategory = () => {
     axiosInstance(token)
-      .post(`/${activeGroupId}/deleteTaskCategory`)
+      .post(`/deleteTaskCategory?group_id=${activeGroupId}`)
       .then(() => {
         Toast.show({
           type: 'success',
@@ -154,43 +150,9 @@ const TaskCategories = ({
               justifyContent: 'space-between',
               marginBottom: 10,
             }}>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                onPress={() => setListView(false)}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  backgroundColor: !listView ? 'white' : '#f2f2f2',
-                  borderRadius: 8,
-                  paddingHorizontal: 8,
-                  paddingVertical: 5,
-                  marginRight: 8,
-                }}>
-                <Text>All</Text>
-                <MaterialCommunityIcons
-                  name="source-branch"
-                  style={{marginLeft: 5}}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => setListView(true)}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  backgroundColor: listView ? 'white' : '#f2f2f2',
-                  borderRadius: 8,
-                  paddingHorizontal: 8,
-                  paddingVertical: 5,
-                }}>
-                <Text>List</Text>
-                <MaterialIcons name="list" size={14} style={{marginLeft: 5}} />
-              </TouchableOpacity>
-            </View>
+            <ViewButtons setListView={setListView} listView={listView} />
             {canDeleteCategory && activeGroupId !== 'main' ? (
-              <TouchableOpacity
-                onPress={() => {
-                  handleDeleteStockGroup();
-                }}>
+              <TouchableOpacity onPress={handleDeleteStockGroup}>
                 <MaterialIcons name="delete-outline" size={24} color="red" />
               </TouchableOpacity>
             ) : null}
@@ -200,140 +162,15 @@ const TaskCategories = ({
               showsVerticalScrollIndicator={false}
               data={taskCategoriesGroup[activeGroupId]}
               renderItem={({item}) => (
-                <SizeButton
-                  handleLongPress={() =>
-                    navigation.navigate('TaskAndStock', {
-                      __tasks: __tasks,
-                      activeGroupId: item.group_id,
-                      task_stocks: taskStocks,
-                      stocks: stocks,
-                      reRender: reRender,
-                      activeGroup: item.name,
-                    })
-                  }
-                  onClick={() => {
-                    setActiveGroupId(item.group_id);
-                    setLinks(prevState => [...prevState, item.group_id]);
-                  }}
-                  key={item.group_id}
-                  buttonStyle={{
-                    marginBottom:
-                      taskCategoriesGroup[item.group_id].length > 0 ? 14 : 4,
-                  }}>
-                  {taskCategoriesGroup &&
-                    taskCategoriesGroup[item.group_id] &&
-                    taskCategoriesGroup[item.group_id].length > 0 && (
-                      <View
-                        style={[
-                          styles.card,
-                          {
-                            height: 50,
-                            width: '94%',
-                            justifyContent: 'center',
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                            zIndex: -10,
-                            marginBottom: -66,
-                            marginTop: 14,
-                          },
-                        ]}
-                      />
-                    )}
-                  <View style={styles.card}>
-                    <View style={styles.assIcon}>
-                      <MaterialIcons name="task-alt" size={28} color="white" />
-                    </View>
-                    <View
-                      style={{
-                        marginLeft: 10,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        flex: 1,
-                      }}>
-                      <View
-                        style={{
-                          fontWeight: 600,
-                          fontSize: 18,
-                          marginBlock: 6,
-                        }}>
-                        <Text>{item.name}</Text>
-                      </View>
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
-                        {__tasks &&
-                          __tasks[item.group_id] &&
-                          __tasks[item.group_id].length > 0 && (
-                            <View
-                              style={{
-                                marginRight: 10,
-                                width: 20,
-                                height: 20,
-                                backgroundColor: '#4da6ff',
-                                color: 'white',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                borderRadius: 20,
-                                fontSize: 14,
-                              }}>
-                              <Text style={{color: 'white'}}>
-                                {__tasks[item.group_id] &&
-                                  __tasks[item.group_id].length}
-                              </Text>
-                            </View>
-                          )}
-                        <TouchableOpacity
-                          onPress={() => {
-                            navigation.navigate('TaskAndStock', {
-                              __tasks: __tasks,
-                              activeGroupId: item.group_id,
-                              task_stocks: taskStocks,
-                              reRender: reRender,
-                              activeGroup: item.name,
-                            });
-                          }}>
-                          <View
-                            style={{
-                              height: 40,
-                              width: 40,
-                              flexDirection: 'row',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }}>
-                            <FontAwesome6
-                              name="list"
-                              size={20}
-                              color={Colors.primary}
-                            />
-                          </View>
-                        </TouchableOpacity>
-                        {/* <CustomButton
-                          
-                          
-                          buttonStyle={{
-                            backgroundColor: Colors.primary,
-                            borderRadius: 4,
-                            marginBottom: 4,
-                            paddingVertical: 4,
-                            paddingHorizontal: 8,
-                          }}
-                          buttonStyle={{
-                          }}
-                          onClick={() => {
-                            navigation.navigate('TaskAndStock', {
-                              __tasks: __tasks,
-                              activeGroupId: item.group_id,
-                              task_stocks: task_stocks,
-                              reRender: reRender,
-                              activeGroup: item.name,
-                            });
-                          }}>
-                          <Text style={{color: 'white'}}>Tasks</Text>
-                        </CustomButton> */}
-                      </View>
-                    </View>
-                  </View>
-                </SizeButton>
+                <CategoryCard
+                  taskCategoriesGroup={taskCategoriesGroup}
+                  setActiveGroupId={setActiveGroupId}
+                  setLinks={setLinks}
+                  __tasks={__tasks}
+                  item={item}
+                  navigation={navigation}
+                  reRender={reRender}
+                />
               )}
             />
           )}
@@ -413,6 +250,40 @@ const TaskCategories = ({
         />
       )}
     </>
+  );
+};
+
+const ViewButtons = ({setListView, listView}) => {
+  return (
+    <View style={{flexDirection: 'row'}}>
+      <TouchableOpacity
+        onPress={() => setListView(false)}
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          backgroundColor: !listView ? 'white' : '#f2f2f2',
+          borderRadius: 8,
+          paddingHorizontal: 8,
+          paddingVertical: 5,
+          marginRight: 8,
+        }}>
+        <Text>All</Text>
+        <MaterialCommunityIcons name="source-branch" style={{marginLeft: 5}} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => setListView(true)}
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          backgroundColor: listView ? 'white' : '#f2f2f2',
+          borderRadius: 8,
+          paddingHorizontal: 8,
+          paddingVertical: 5,
+        }}>
+        <Text>List</Text>
+        <MaterialIcons name="list" size={14} style={{marginLeft: 5}} />
+      </TouchableOpacity>
+    </View>
   );
 };
 
