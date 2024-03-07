@@ -35,7 +35,9 @@ const IssueDetailsSection = ({
           <Text style={{fontWeight: 600, fontSize: 16, marginBottom: 4}}>
             {activeIssue.issue_name}
           </Text>
-          <Text>{formatDate(activeIssue.start_date)}</Text>
+          <Text style={{fontSize: 12}}>
+            {formatDate(activeIssue.start_date)}
+          </Text>
         </View>
         <View style={{marginLeft: 'auto', marginRight: 10}}>
           <Text

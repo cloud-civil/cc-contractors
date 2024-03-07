@@ -100,7 +100,7 @@ const SignupScreen = ({navigation}) => {
         flexDirection: 'row',
       }}>
       <View style={{flex: 1, marginHorizontal: 30, height: 380}}>
-        <Text style={{fontWeight: 600, fontSize: 28}}>Sign Up</Text>
+        <Text style={{fontWeight: '600', fontSize: 28}}>Sign Up</Text>
         <View style={{marginVertical: 10, flex: 1}}>
           <Input value={fname} label="First Name" onChangeText={setFName} />
           <Input value={lname} label="Last Name" onChangeText={setLName} />

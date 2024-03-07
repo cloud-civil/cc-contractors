@@ -245,14 +245,14 @@ const ProjectStack = ({route}) => {
           headerLeft: GoBack,
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="IssueComment"
         component={IssueCommnet}
         initialParams={route.params}
         options={{
           headerShown: false,
         }}
-      />
+      /> */}
       <Stack.Screen
         name="reports"
         component={ReportScreen}

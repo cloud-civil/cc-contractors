@@ -1,145 +1,14 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer} from '@react-navigation/native';
-import LoginScreen from './screens/LoginScreen';
+import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {AUTH_SETTINGS, setToken} from './cc-hooks/src/authSlice';
 import {getUserSession} from './apiHooks';
 import {authenticateUser, loginFailed} from './cc-hooks/src/authSlice';
-import TabNavigator from './screens/TabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SignupScreen from './screens/SignupScreen';
 import CustomLoader from './components/CustomLoader';
 import SelectOrg from './screens/SelectORG';
 import {setOrg} from './cc-hooks/src/authSlice';
-import ProjectStack from './screens/project/ProjectStack';
-import {axiosInstance} from './apiHooks/axiosInstance';
-import ContractorDetails from './screens/vendors-and-contractors/ContractorDetails';
-import VendorDetails from './screens/vendors-and-contractors/VendorDetails';
-import AssetDetails from './screens/org-assets/AssetDetails';
-import UserDetails from './screens/org-users/UserDetails';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import CodePush from 'react-native-code-push';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
-const Stack = createNativeStackNavigator();
-
-const logErrorToService = async (error, errorInfo, stateToken) => {
-  axiosInstance(stateToken, {
-    data: JSON.stringify({
-      error_title: error.toString(),
-      error_stack: errorInfo.componentStack,
-      error_from: 'react-native',
-    }),
-  })
-    .post('/createErrorLog')
-    .catch(err => {
-      console.error(err, '/createErrorLog1', err?.response?.data?.message);
-    })
-    .catch(err =>
-      console.error(err, '/createErrorLog', err?.response?.data?.message),
-    );
-};
-
-const ErrorBoundary = ({children, stateToken}) => {
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    const handleError = (error, errorInfo) => {
-      console.log(error, errorInfo);
-      // Log the error to an error reporting service
-      logErrorToService(error, errorInfo, stateToken);
-      setHasError(true);
-    };
-    // Assign the error handler
-    const errorListener = global.ErrorUtils.setGlobalHandler(handleError);
-    return () => {
-      // Remove the error handler on unmount
-      global.ErrorUtils.setGlobalHandler(errorListener);
-    };
-  }, []);
-
-  const restartApp = () => {
-    CodePush.restartApp();
-  };
-
-  if (hasError) {
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <TouchableOpacity onPress={restartApp}>
-          <Ionicons name="reload" size={30} color={'#2d2d2d'} />
-        </TouchableOpacity>
-        <Text style={{marginTop: 10, marginBottom: 6}}>
-          Something went wrong!
-        </Text>
-        <Text>Please try again</Text>
-      </View>
-    );
-  }
-  return <>{children}</>;
-};
-
-function AppStack({stateToken}) {
-  return (
-    <ErrorBoundary stateToken={stateToken}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="TabNavigator"
-            component={TabNavigator}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="ProjectStack"
-            component={ProjectStack}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="UserDetails"
-            component={UserDetails}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="AssetDetails"
-            component={AssetDetails}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="ContractorDetails"
-            component={ContractorDetails}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="VendorDetails"
-            component={VendorDetails}
-            options={{headerShown: false}}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </ErrorBoundary>
-  );
-}
-
-function AuthStack() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Signup"
-          component={SignupScreen}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
+import AppStack from './screens/stacks/Appstack';
+import AuthStack from './screens/stacks/AuthStack';
 
 const getToken = async () => {
   const token = await AsyncStorage.getItem('AUTH_TOKEN');
@@ -195,10 +64,10 @@ export default function Route() {
     return <CustomLoader loading={true} />;
   }
   if (auth === AUTH_SETTINGS.AUTH_LOGIN) {
-    return <AuthStack />;
+    return <AuthStack stateToken={stateToken} />;
   }
   if (auth === AUTH_SETTINGS.LOGIN_FAILED) {
-    return <AuthStack />;
+    return <AuthStack stateToken={stateToken} />;
   }
   if (!userOrg) {
     return <SelectOrg authUser={authUser} />;

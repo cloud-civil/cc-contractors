@@ -59,7 +59,7 @@ const LoginScreen = ({navigation}) => {
         flexDirection: 'row',
       }}>
       <View style={{marginHorizontal: 30, height: 250, flex: 1}}>
-        <Text style={{fontWeight: 600, fontSize: 28}}>Login</Text>
+        <Text style={{fontWeight: '600', fontSize: 28}}>Login</Text>
         <View style={{marginVertical: 10, flex: 1}}>
           <Input
             keyboardType="numeric"

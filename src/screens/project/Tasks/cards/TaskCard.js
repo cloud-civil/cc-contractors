@@ -1,4 +1,23 @@
-const TaskCard = () => {
+import React from 'react';
+import SizeButton from '../../../../components/SizeButton';
+import {View, Text, Dimensions} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import styles from '../../../../styles/styles';
+import Colors from '../../../../styles/Colors';
+import {getDateRange} from '../../../../utils';
+import LinearProgressBar from '../../../../components/LinearProgressBar';
+import {CustomIconButton} from '../../../../components/CustomButton';
+
+const TaskCard = ({
+  setActivity,
+  item,
+  activeGroupId,
+  permission,
+  handleDeleteTask,
+  navigation,
+}) => {
+  const progress = (100 / item.target) * item.completed;
   return (
     <SizeButton
       key={item.task_id}
@@ -90,53 +109,32 @@ const TaskCard = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              {/* {permission && permission.delete && (
-                            <CustomButton
-                              buttonStyle={{
-                                backgroundColor: '#f2f2f2',
-                                borderRadius: 8,
-                                marginRight: 10,
-                                padding: 6,
-                              }}
-                              onClick={() => {
-                                handleDeleteTask(item.task_id);
-                              }}>
-                              <MaterialIcons
-                                name="delete-outline"
-                                size={24}
-                                color="red"
-                              />
-                            </CustomButton>
-                          )} */}
-              {/* {permission && permission.update && (
-                            <CustomButton
-                              buttonStyle={{
-                                backgroundColor: '#f2f2f2',
-                                borderRadius: 8,
-                                marginRight: 10,
-                                padding: 6,
-                              }}
-                              onClick={() => {
-                                setActivity(prev => ({
-                                  ...prev,
-                                  activeTask: item,
-                                  showEditTaskModal: true,
-                                }));
-                              }}>
-                              <MaterialCommunityIcons
-                                name="pencil"
-                                size={24}
-                                color={Colors.primary}
-                              />
-                            </CustomButton>
-                          )} */}
+              {permission && permission.delete && (
+                <CustomIconButton
+                  onClick={() => {
+                    handleDeleteTask(item.task_id);
+                  }}>
+                  <MaterialIcons name="delete-outline" size={24} color="red" />
+                </CustomIconButton>
+              )}
+              {permission && permission.update && (
+                <CustomIconButton
+                  onClick={() => {
+                    setActivity(prev => ({
+                      ...prev,
+                      activeTask: item,
+                      showEditTaskModal: true,
+                    }));
+                  }}>
+                  <MaterialCommunityIcons
+                    name="pencil"
+                    size={24}
+                    color={Colors.primary}
+                  />
+                </CustomIconButton>
+              )}
               {permission && permission.write && (
-                <CustomButton
-                  buttonStyle={{
-                    backgroundColor: '#f2f2f2',
-                    borderRadius: 8,
-                    padding: 6,
-                  }}
+                <CustomIconButton
                   onClick={() => {
                     setActivity(prev => ({
                       ...prev,
@@ -149,7 +147,7 @@ const TaskCard = () => {
                     size={22}
                     color={Colors.primary}
                   />
-                </CustomButton>
+                </CustomIconButton>
               )}
             </View>
           </View>
@@ -158,3 +156,5 @@ const TaskCard = () => {
     </SizeButton>
   );
 };
+
+export default TaskCard;

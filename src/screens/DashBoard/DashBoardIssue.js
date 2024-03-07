@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Text} from 'react-native';
@@ -14,25 +13,25 @@ const DashBoardIssue = ({project_id}) => {
   const token = useSelector(state => state.auth.token);
   const tabs = ['New Issues', 'In Progress', 'Done'];
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [showUpdateIssueModal, setShowUpdateIssueModal] = useState(false);
-  const [activeIssue, setActiveIssue] = useState(null);
-  const [issuesData, setIssuesState] = useState({
+  const [activity, setActivity] = useState({
     newIssues: [],
     updatedIssues: [],
     doneIssues: [],
+    updateIssueModal: false,
+    activeIssue: false,
+    project_id,
   });
 
   const props = {
-    setActiveIssue,
-    setShowUpdateIssueModal,
-    issuesData,
+    activity,
+    setActivity,
   };
 
   useEffect(() => {
     axiosInstance(token)
       .get(`/getAllIssuesByProjectId?project_id=${project_id}`)
       .then(res => {
-        setIssuesState({
+        setActivity({
           newIssues: res.data.data.newIssues,
           updatedIssues: res.data.data.updatedIssues,
           doneIssues: res.data.data.doneIssues,
@@ -70,12 +69,11 @@ const DashBoardIssue = ({project_id}) => {
         {activeTab === tabs[1] && <InProgressIssue {...props} />}
         {activeTab === tabs[2] && <DoneIssues {...props} />}
       </View>
-      {activeIssue && (
+      {activity.activeIssue && activity.updateIssueModal && (
         <UpdateIssueModal
           project_id={project_id}
-          showModal={showUpdateIssueModal}
-          setShowModal={setShowUpdateIssueModal}
-          activeIssue={activeIssue}
+          activity={activity}
+          setActivity={setActivity}
         />
       )}
     </View>

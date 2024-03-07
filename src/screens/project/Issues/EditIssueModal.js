@@ -27,14 +27,15 @@ const FormComponent = props => {
   }, [activity.activeIssue]);
 
   const handleEditIssue = () => {
-    const updateState__ = {
-      issue_name: updateState.issue_name,
+    const submitData = {
+      issueName: updateState.issue_name,
       description: updateState.description,
       status: updateState.status,
+      issueId: activity.activeIssue.issue_id,
     };
 
     axiosInstance(token)
-      .post(`update-issue/${activity.activeIssue.issue_id}`, updateState__)
+      .post('updateIssue', submitData)
       .then(({data}) => {
         Toast.show({
           type: 'success',
@@ -54,7 +55,7 @@ const FormComponent = props => {
         }));
       })
       .catch(err => {
-        console.error(err, 'update-issue/', err?.response?.data?.message);
+        console.error(err, 'updateIssue', err?.response?.data?.message);
         Toast.show({
           type: 'error',
           text1: 'Failed',

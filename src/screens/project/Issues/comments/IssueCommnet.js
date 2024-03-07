@@ -49,6 +49,7 @@ const IssueCommnet = ({route}) => {
   const [loadingComments, setLoadingComments] = useState(true);
   const [activity, setActivity] = useState({
     updateIssueModal: false,
+    activeIssue: activeIssue,
   });
   const [imageUploadLoading, setImageUploadLoading] = useState(false);
 
@@ -66,7 +67,7 @@ const IssueCommnet = ({route}) => {
 
   const getAllIssueCommentByIssueId = async () => {
     axiosInstance(token)
-      .get(`/getAllIssueCommentByIssueId/${activeIssue.issue_id}`)
+      .get(`/getAllIssueCommentByIssueId?issue_id=${activeIssue.issue_id}`)
       .then(({data}) => {
         setCommentData(data.data);
         setLoadingComments(false);
@@ -277,13 +278,14 @@ const IssueCommnet = ({route}) => {
           setShowPhotoModal(false);
         }}
       />
-      {activeIssue && (
+      {activity.activeIssue && activity.updateIssueModal && (
         <UpdateIssueModal
           setRender={setRender}
           project_id={project_id}
           activity={activity}
           setActivity={setActivity}
-          activeIssue={activeIssue}
+          token={token}
+          userOrg={userOrg}
         />
       )}
     </>

@@ -6,7 +6,10 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import {createStockData} from '../../../../cc-hooks/src/stockSlice';
 import {axiosInstance} from '../../../../apiHooks/axiosInstance';
 import {units} from '../../../../utils/constants';
-import {CustomButton} from '../../../../components/CustomButton';
+import {
+  CustomButton,
+  CustomFormButton,
+} from '../../../../components/CustomButton';
 import Toast from 'react-native-toast-message';
 import Input from '../../../../components/Input';
 import CustomDropdown from '../../../../components/CustomDropdown';
@@ -76,10 +79,16 @@ const FormComponent = ({project_id, activeGroupId, setActivity}) => {
         <Input value={name} label="Material Name" onChangeText={setName} />
         <Input
           value={alertAmount}
+          keyboardType="numeric"
           label="Low Material Alert"
           onChangeText={setAlertamount}
         />
-        <Input value={rate} label="Vendor Rate (INR)" onChangeText={setRate} />
+        <Input
+          value={rate}
+          label="Vendor Rate (INR)"
+          keyboardType="numeric"
+          onChangeText={setRate}
+        />
 
         <CustomDropdown
           label="Select Unit"
@@ -93,18 +102,9 @@ const FormComponent = ({project_id, activeGroupId, setActivity}) => {
       </View>
 
       <View>
-        <CustomButton
-          buttonStyle={{
-            backgroundColor: Colors.primary,
-            borderRadius: 8,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingVertical: 12,
-          }}
-          onClick={createStock}>
+        <CustomFormButton onClick={createStock}>
           <Text style={{color: 'white', fontSize: 16}}>Create Material</Text>
-        </CustomButton>
+        </CustomFormButton>
       </View>
     </View>
   );

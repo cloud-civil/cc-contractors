@@ -61,10 +61,8 @@ const IssueCard = props => {
             alignItems: 'center',
           }}>
           <View style={{width: '52%'}}>
-            <Text style={{marginBottom: 2, fontWeight: 600}}>
-              {item.issue_name}
-            </Text>
-            <Text numberOfLines={1} style={{fontSize: 13}}>
+            <Text style={{fontWeight: 600}}>{item.issue_name}</Text>
+            <Text numberOfLines={1} style={{fontSize: 13, marginVertical: 2}}>
               {item.description}
             </Text>
 

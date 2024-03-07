@@ -1,0 +1,33 @@
+{
+  "env": {
+    "node": true,
+    "browser": true
+  },
+  "plugins": [], // Add this line
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime"
+  ],
+  "rules": {
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    // "semi": ["error", "always"],
+    "no-empty": "warn",
+    "no-cond-assign": ["error", "always"],
+    "no-unused-vars": [
+      "error",
+      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
+    ],
+    "for-direction": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    "react/prop-types": "off"
+  },
+  "parser": "@babel/eslint-parser",
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

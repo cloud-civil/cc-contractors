@@ -41,7 +41,7 @@ const KeyValueCard = ({name, value, icon, backgroundColor, width, style}) => {
         <Text
           numberOfLines={2}
           style={{
-            fontWeight: 600,
+            fontWeight: '600',
             fontSize: 14,
             marginBottom: 4,
           }}>

@@ -8,6 +8,7 @@ import {CustomFormButton} from '../../components/CustomButton';
 import styles from '../../styles/styles';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../styles/Colors';
+import SizeButton from '../../components/SizeButton';
 
 const FormComponent = ({setShowModal}) => {
   return (
@@ -29,24 +30,26 @@ const FormComponent = ({setShowModal}) => {
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </Text>
         <TouchableOpacity style={{marginTop: 10}}>
-          <Text style={{color: Colors.primary}}>Learn more about it</Text>
+          <Text style={customStyle.textButton}>Learn more about it</Text>
         </TouchableOpacity>
       </View>
-      <View style={customStyle.planBox}>
-        <View>
-          <Text style={{marginBottom: 4}}>Cloud Civil Pro</Text>
-          <Text>
-            <Text style={{fontWeight: '600'}}>&#8377;999.00</Text> a month
-          </Text>
+      <SizeButton>
+        <View style={customStyle.planBox}>
+          <View>
+            <Text style={{marginBottom: 4}}>Cloud Civil Pro</Text>
+            <Text>
+              <Text style={{fontWeight: '600'}}>&#8377;999.00</Text> a month
+            </Text>
+          </View>
+          <View>
+            <MaterialCommunityIcons
+              name="check-circle"
+              size={20}
+              color={Colors.primary}
+            />
+          </View>
         </View>
-        <View>
-          <MaterialCommunityIcons
-            name="check-circle"
-            size={20}
-            color={Colors.primary}
-          />
-        </View>
-      </View>
+      </SizeButton>
       <View>
         <CustomFormButton onClick={() => {}}>
           <Text style={{color: 'white', fontSize: 16}}>Upgrade to Pro</Text>
@@ -54,7 +57,7 @@ const FormComponent = ({setShowModal}) => {
         <TouchableOpacity
           style={{marginTop: 16}}
           onPress={() => setShowModal(false)}>
-          <Text style={customStyle.notNow}>Not Now</Text>
+          <Text style={customStyle.textButton}>Not Now</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -96,8 +99,8 @@ const customStyle = StyleSheet.create({
     borderColor: Colors.primary,
     marginBottom: 20,
   },
-  notNow: {
-    fontWeight: 600,
+  textButton: {
+    fontWeight: '500',
     color: Colors.primary,
     textAlign: 'center',
   },

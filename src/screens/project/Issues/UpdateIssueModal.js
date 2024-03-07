@@ -51,7 +51,9 @@ const FormComponent = props => {
   };
 
   const onUpdate = () => {
-    const updateState__ = {
+    const submitData = {
+      project_id,
+      org_id: userOrg.org_id,
       issue_id: activity.activeIssue.issue_id,
       user_id: authUser.user_id,
       comment: formData.comment,
@@ -60,23 +62,24 @@ const FormComponent = props => {
     };
 
     axiosInstance(token)
-      .post('/addCommentToIssue', updateState__)
-      .then(() => {
+      .post('/addCommentToIssue', submitData)
+      .then(({data}) => {
         Toast.show({
           type: 'success',
           text1: 'Success',
           text2: 'Issue has been updated succesfully.',
         });
-        const newArr = activity.issuesData.map(item => {
-          if (item.issue_id === activity.activeIssue.issue_id) {
-            return {...item, status: formData.status};
-          }
-          return item;
-        });
-        setActivity(prev => ({...prev, issuesData: newArr}));
-
+        console.log(data);
         if (setRender) {
           setRender(prev => prev + 1);
+        } else {
+          const newArr = activity.issuesData.map(item => {
+            if (item.issue_id === activity.activeIssue.issue_id) {
+              return {...item, status: formData.status};
+            }
+            return item;
+          });
+          setActivity(prev => ({...prev, issuesData: newArr}));
         }
         resetFields();
       })
