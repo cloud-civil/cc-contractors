@@ -1,0 +1,8 @@
+{
+    "name": "cc-utils",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Cloud Civil <dev@cloudcivil.in>",
+    "license": "MIT"
+  }
+  
