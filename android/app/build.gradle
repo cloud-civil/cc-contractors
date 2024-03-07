@@ -1,6 +1,6 @@
 apply plugin: "com.android.application"
-apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -71,16 +71,16 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-    compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.cc_lite"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    namespace "com.cloudcivil_contractor"
     defaultConfig {
-        applicationId "com.cc_lite"
+        applicationId "com.cloudcivil_contractor"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 49
+        versionName "1.4.7"
     }
     signingConfigs {
         debug {
@@ -88,6 +88,14 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
         }
     }
     buildTypes {
@@ -97,7 +105,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -107,8 +115,13 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    implementation("com.facebook.react:flipper-integration")
-    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-pager-view')
+    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
+    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
+    }
+
+    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {
@@ -117,4 +130,4 @@ dependencies {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
-apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
