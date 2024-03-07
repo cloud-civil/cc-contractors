@@ -87,7 +87,7 @@ const Employes = ({route}) => {
         console.log(err, 'removeUserFromProject', err?.response?.data?.message);
       });
   };
-  console.log('project_users');
+
   return (
     <>
       <View style={styles.container}>
@@ -136,7 +136,6 @@ const Employes = ({route}) => {
                         <Text style={{fontSize: 14, fontWeight: 600}}>
                           {item?.fname} {item?.lname}
                         </Text>
-                        <Text style={{fontSize: 13}}>{item?.phone}</Text>
                       </View>
                       <View style={{marginLeft: 'auto'}}>
                         {authUser?.user_id !== item?.user_id &&

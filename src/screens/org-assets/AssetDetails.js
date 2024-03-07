@@ -21,7 +21,7 @@ const AssetDetails = ({route}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${activeAsset.asset_id}/getAssetsUsedInAllProjects`)
+      .get(`/getAssetsUsedInAllProjects?asset_id=${activeAsset.asset_id}`)
       .then(({data}) => {
         setAssets(data.data);
         setLoading(false);

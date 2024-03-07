@@ -37,16 +37,22 @@ const VendorDetails = ({route}) => {
   useEffect(() => {
     console.log('ran');
     axiosInstance(token)
-      .get(`/${activeVendor__.vendor_id}/getVendorByVendorId`)
+      .get(`/getVendorByVendorId?vendor_id=${activeVendor__.vendor_id}`)
       .then(({data}) => {
         setActiveVendor(data.data);
       })
-      .catch(() => {});
+      .catch(err => {
+        console.error(
+          err,
+          '/getVendorByVendorId',
+          err?.response?.data?.message,
+        );
+      });
   }, [reRender]);
 
   return (
     <View>
-      <View style={{marginTop: 34}} />
+      <View style={styles.statusBar} />
       <View
         style={{
           flexDirection: 'row',

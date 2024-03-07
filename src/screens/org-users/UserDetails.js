@@ -25,9 +25,9 @@ const UserDetails = ({route}) => {
 
   useEffect(() => {
     Promise.allSettled([
-      axiosInstance(token).get(`/${userOrg.org_id}/getAllProjectsByOrg`),
+      axiosInstance(token).get(`/getAllProjectsByOrg?org_id=${userOrg.org_id}`),
       axiosInstance(token).get(
-        `/${userOrg.org_id}/${activeUser.user_id}/getProjectsOfUser`,
+        `/getProjectsOfUser?org_id=${userOrg.org_id}&user_id=${activeUser.user_id}`,
       ),
     ])
       .then(([response1, response2]) => {
@@ -41,9 +41,10 @@ const UserDetails = ({route}) => {
   }, []);
 
   const userProjectsAsObject = {};
-  userProjects.forEach(p => {
-    userProjectsAsObject[p.project_id] = p;
-  });
+  userProjects &&
+    userProjects.forEach(p => {
+      userProjectsAsObject[p.project_id] = p;
+    });
 
   const addUserToProject = project => {
     axiosInstance(token)
@@ -135,14 +136,14 @@ const UserDetails = ({route}) => {
             renderItem={() => {
               return (
                 <>
-                  {userProjects.length ? (
+                  {userProjects && userProjects.length ? (
                     <UserProjects
                       userProjects={userProjects}
                       screenWidth={screenWidth}
                       removeUserFromProject={removeUserFromProject}
                     />
                   ) : null}
-                  {orgProjects.length ? (
+                  {orgProjects && orgProjects.length ? (
                     <OrgProjects
                       orgProjects={orgProjects}
                       screenWidth={screenWidth}
