@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Text} from 'react-native';
@@ -29,7 +30,7 @@ const DashBoardIssue = ({project_id}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${project_id}/getAllIssueByProjectIdForToday`)
+      .get(`/getAllIssuesByProjectId?project_id=${project_id}`)
       .then(res => {
         setIssuesState({
           newIssues: res.data.data.newIssues,

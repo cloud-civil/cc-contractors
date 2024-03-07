@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {shallowEqual, useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
@@ -42,12 +44,12 @@ const IssueNavigation = ({route}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${userOrg.org_id}/getAllIssuesByOrg`)
+      .get(`/getAllIssuesByOrgId?org_id=${userOrg.org_id}`)
       .then(({data}) => {
         setActivity(prev => ({...prev, issuesData: data.data, loading: false}));
       })
       .catch(err => {
-        console.log(err, '/getAllIssuesByOrg', err?.response?.data?.message);
+        console.log(err, '/getAllIssuesByOrgId', err?.response?.data?.message);
       });
   }, []);
 

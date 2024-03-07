@@ -1,4 +1,5 @@
-import {useEffect, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react';
 import {logoutUser, setOrg} from '../cc-hooks/src/authSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {axiosInstance} from '../apiHooks/axiosInstance';
@@ -87,12 +88,12 @@ const SelectOrg = () => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/getOrganizationsOfUser/${authUser.phone}`)
+      .get(`/getOrganizationsOfUser?phone=${authUser.phone}`)
       .then(res => {
         setOrgs(res.data.data);
       })
       .catch(err => {
-        console.error(err.response.data.message);
+        console.error(err.response.data.message, 'error');
         // console.error(err, JSON.stringify(err));
       });
   }, []);

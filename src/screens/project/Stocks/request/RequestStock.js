@@ -1,4 +1,5 @@
-import {useEffect, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, ActivityIndicator} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -36,7 +37,7 @@ const RequestStock = props => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${project_id}/getAllRequestedStocksForProject`)
+      .get(`/getAllRequestedStocksForProject?project_id=${project_id}`)
       .then(({data}) => {
         setActivity(prev => ({
           ...prev,

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
 import {ActivityIndicator, Alert, FlatList, Text, View} from 'react-native';
 import SizeButton from '../../../../components/SizeButton';
 import styles from '../../../../styles/styles';
@@ -23,7 +25,7 @@ const AllUserBalances = props => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/expense/user/${project_id}/getAllUsersBalanceOfProject`)
+      .get(`/expense/user/getAllUsersBalanceOfProject?project_id=${project_id}`)
       .then(({data}) => {
         const uBalances = {};
         data.data.forEach(item => {

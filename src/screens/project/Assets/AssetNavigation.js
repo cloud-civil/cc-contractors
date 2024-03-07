@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AvailableAssets from './AvailableAssets';
@@ -38,7 +40,7 @@ const AssetNavigation = ({route}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${project_id}/getAssetsUsedInSiteByProjectId`)
+      .get(`/getAssetsUsedInSiteByProjectId?project_id=${project_id}`)
       .then(({data}) => {
         setAssetUsedInSite(data.data);
         setUsedLoading(false);
@@ -54,7 +56,7 @@ const AssetNavigation = ({route}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${userOrg.org_id}/getAvailableAssets`)
+      .get(`/getAvailableAssets?org_id=${userOrg.org_id}`)
       .then(({data}) => {
         setAvailableAssets(data.data);
       })
@@ -65,7 +67,7 @@ const AssetNavigation = ({route}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${project_id}/getBrokenAssets`)
+      .get(`/getBrokenAssets?project_id=${project_id}`)
       .then(({data}) => {
         setBrokenAssets(data.data);
       })

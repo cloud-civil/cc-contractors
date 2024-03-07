@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -40,11 +40,17 @@ const ProjectHome = ({route}) => {
   useEffect(() => {
     if (tasks && !tasks[project_id]) {
       axiosInstance(token)
-        .get(`/${project_id}/getTasksByProjectId`)
+        .get(`/getTasksByProjectId?project_id=${project_id}`)
         .then(({data}) => {
           dispatch(setTasks({project_id, data: data.data}));
         })
-        .catch(err => console.error(err));
+        .catch(err =>
+          console.error(
+            err,
+            '/getTasksByProjectId',
+            err?.response?.data?.message,
+          ),
+        );
     }
   }, [dispatch, project_id, tasks, token]);
 

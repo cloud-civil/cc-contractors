@@ -1,4 +1,5 @@
-import {useEffect} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect} from 'react';
 import DocumentScreen from './DocumentScreen';
 import ReportScreen from './Reports/ReportScreen';
 import AssetNavigation from './Assets/AssetNavigation';
@@ -59,7 +60,7 @@ const ProjectStack = ({route}) => {
     if (project_id) {
       axiosInstance(token)
         .get(
-          `/pem/${project_id}/${authUser.user_id}/getAllUserTablePermissions`,
+          `/pem/getAllUserTablePermissions?project_id=${project_id}&user_id=${authUser.user_id}`,
         )
         .then(({data}) => {
           console.log('getAllUserTablePermissions');
@@ -71,7 +72,7 @@ const ProjectStack = ({route}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${project_id}/getAllStocksForProject`)
+      .get(`/getAllStocksForProject?project_id=${project_id}`)
       .then(({data}) => {
         console.log('getAllStocksForProject');
         const gob = {};
@@ -102,7 +103,7 @@ const ProjectStack = ({route}) => {
   useEffect(() => {
     if (users) {
       axiosInstance(token)
-        .get(`/${project_id}/getUsersOfProject`)
+        .get(`/getUsersOfProject?project_id=${project_id}`)
         .then(({data}) => {
           const f = {};
           const g = [];
@@ -126,7 +127,7 @@ const ProjectStack = ({route}) => {
   useEffect(() => {
     if (!project_assets__[project_id]) {
       axiosInstance(token)
-        .get(`/${project_id}/getAssetsByProjectId`)
+        .get(`/getAssetsByProjectId?project_id=${project_id}`)
         .then(({data}) => {
           dispatch(setProjectAssets({project_id, data: data.data}));
         })
@@ -139,7 +140,7 @@ const ProjectStack = ({route}) => {
   useEffect(() => {
     if (!purchasedOrders__[project_id]) {
       axiosInstance(token)
-        .get(`/${project_id}/getPurchasedOrderByProjectId`)
+        .get(`/getPurchasedOrderByProjectId?project_id=${project_id}`)
         .then(({data}) => {
           dispatch(setPurchaseOrders({project_id, data: data.data}));
         })
@@ -152,7 +153,7 @@ const ProjectStack = ({route}) => {
   useEffect(() => {
     if (!receivedOrders__[project_id]) {
       axiosInstance(token)
-        .get(`/${project_id}/getReceivedOrderByProjectId`)
+        .get(`/getReceivedOrderByProjectId?project_id=${project_id}`)
         .then(({data}) => {
           dispatch(setReceiveOrders({project_id, data: data.data}));
         })
@@ -164,7 +165,7 @@ const ProjectStack = ({route}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${project_id}/getUserByRoleForProject`)
+      .get(`/getUserByRoleForProject?project_id=${project_id}`)
       .then(({data}) => {
         dispatch(setUserRolesData({project_id, data: data.data}));
       })
@@ -190,7 +191,7 @@ const ProjectStack = ({route}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${project_id}/getTaskCategories`)
+      .get(`/getTaskCategories?project_id=${project_id}`)
       .then(({data}) => {
         const {task_categories} = data.data;
         const {all_task_groups} = GroupTaskCategories(task_categories);

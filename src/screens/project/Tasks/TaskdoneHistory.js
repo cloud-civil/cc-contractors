@@ -54,7 +54,7 @@ const TaskDoneHistory = ({route}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${activeTask.task_id}/getCompletedTasksByTaskId`)
+      .get(`/getCompletedTasksByTaskId?task_id=${activeTask.task_id}`)
       .then(({data}) => {
         setDoneTasks(data.data);
         setLoading(false);

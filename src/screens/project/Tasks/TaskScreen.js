@@ -1,4 +1,5 @@
-import {useEffect, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react';
 import {axiosInstance} from '../../../apiHooks/axiosInstance';
 import {
   View,
@@ -31,7 +32,7 @@ const TaskScreen = ({route}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${project_id}/getTaskCategories`)
+      .get(`/getTaskCategories?project_id=${project_id}`)
       .then(({data}) => {
         console.log('getTaskCategories');
         const {task_categories, tasks} = data.data;

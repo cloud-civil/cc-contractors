@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react';
 import {ActivityIndicator, FlatList, Text, View} from 'react-native';
 import styles from '../../../styles/styles';
 import {GoBack} from '../../../components/HeaderButtons';
@@ -88,9 +90,9 @@ const AttendanceScreen = ({route}) => {
     // setTodayDateLoading(true);
     axiosInstance(token)
       .get(
-        `/${project_id}/${
+        `/getTodaysAttendance?project_id=${project_id}&contractor_id=${
           contractor.contractor_id
-        }/${activity.date.getTime()}/getTodaysAttendance`,
+        }&timestamp=${activity.date.getTime()}`,
       )
       .then(({data}) => {
         if (data.data.length > 0) {

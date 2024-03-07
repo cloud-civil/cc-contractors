@@ -46,14 +46,16 @@ const ExpenseScreen = ({route}) => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/${project_id}/getTasksByProjectId`)
+      .get(`/getTasksByProjectId?project_id=${project_id}`)
       .then(({data}) => {
         dispatch(setTasks({project_id, data: data.data}));
       })
       .catch(err => console.error(err));
 
     axiosInstance(token)
-      .get(`/expense/vendor/${project_id}/getAllVendorsBalanceOfProject`)
+      .get(
+        `/expense/vendor/getAllVendorsBalanceOfProject?project_id=${project_id}`,
+      )
       .then(({data}) => {
         const __balances = {};
         data.data.forEach(vendor => {

@@ -1,4 +1,5 @@
-import {useEffect, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react';
 import {View, Text, Alert} from 'react-native';
 import {useSelector} from 'react-redux';
 import CustomModal from '../../../../components/CustomModal';
@@ -61,7 +62,7 @@ const FormComponent = ({
   useEffect(() => {
     if (activeContractor && activeContractor.contractor_id) {
       axiosInstance(token)
-        .get(`/${project_id}/getTaskCategories`)
+        .get(`/getTaskCategories?project_id=${project_id}`)
         .then(({data}) => {
           const {task_categories, tasks} = data.data;
           const groupTasks = getGroupTasks(tasks);

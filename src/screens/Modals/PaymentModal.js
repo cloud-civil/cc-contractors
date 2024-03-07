@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 // import {TouchableOpacity} from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -12,12 +12,7 @@ import Colors from '../../styles/Colors';
 const FormComponent = ({setShowModal}) => {
   return (
     <View style={{marginTop: 10}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
+      <View style={customStyle.flexRow}>
         <View style={{width: '80%', marginRight: 10}}>
           <Text>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -28,12 +23,7 @@ const FormComponent = ({setShowModal}) => {
           <MaterialIcons name="upgrade" size={40} color="white" />
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: 'column',
-          alignItems: 'center',
-          marginVertical: 20,
-        }}>
+      <View style={customStyle.flexCol}>
         <Text style={{textAlign: 'center', width: '70%'}}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -42,17 +32,7 @@ const FormComponent = ({setShowModal}) => {
           <Text style={{color: Colors.primary}}>Learn more about it</Text>
         </TouchableOpacity>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          borderWidth: 2,
-          padding: 10,
-          borderRadius: 8,
-          borderColor: Colors.primary,
-          marginBottom: 20,
-        }}>
+      <View style={customStyle.planBox}>
         <View>
           <Text style={{marginBottom: 4}}>Cloud Civil Pro</Text>
           <Text>
@@ -74,14 +54,7 @@ const FormComponent = ({setShowModal}) => {
         <TouchableOpacity
           style={{marginTop: 16}}
           onPress={() => setShowModal(false)}>
-          <Text
-            style={{
-              fontWeight: 600,
-              color: Colors.primary,
-              textAlign: 'center',
-            }}>
-            Not Now
-          </Text>
+          <Text style={customStyle.notNow}>Not Now</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -101,5 +74,33 @@ const PaymentModal = props => {
     </CustomModal>
   );
 };
+
+const customStyle = StyleSheet.create({
+  flexRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  flexCol: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  planBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderWidth: 2,
+    padding: 10,
+    borderRadius: 8,
+    borderColor: Colors.primary,
+    marginBottom: 20,
+  },
+  notNow: {
+    fontWeight: 600,
+    color: Colors.primary,
+    textAlign: 'center',
+  },
+});
 
 export default PaymentModal;

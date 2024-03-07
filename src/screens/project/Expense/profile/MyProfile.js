@@ -1,4 +1,5 @@
-import {useEffect, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react';
 import {View, Text, ActivityIndicator} from 'react-native';
 import {useSelector} from 'react-redux';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -36,13 +37,13 @@ const Myprofile = ({project_id}) => {
     // eslint-disable-next-line no-undef
     Promise.all([
       axiosInstance(token).get(
-        `/expense/user/${project_id}/${authUser.user_id}/getUserExpenses`,
+        `/expense/user/getUserExpenses?project_id=${project_id}&user_id=${authUser.user_id}`,
       ),
       axiosInstance(token).get(
-        `/expense/user/${project_id}/${authUser.user_id}/getUserBalanceOfProject`,
+        `/expense/user/getUserBalanceOfProject?project_id=${project_id}&user_id=${authUser.user_id}`,
       ),
       axiosInstance(token).get(
-        `/expense/${authUser.user_id}/getAllUserAllowanceRequests`,
+        `/expense/getAllUserAllowanceRequests?project_id=${project_id}&user_id=${authUser.user_id}`,
       ),
     ])
       .then(([response1, response2, response3]) => {

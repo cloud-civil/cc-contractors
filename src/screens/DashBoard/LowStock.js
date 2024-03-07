@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from 'react';
 import {Dimensions, View} from 'react-native';
 import {Text} from 'react-native';
@@ -18,7 +19,7 @@ const LowStock = ({project_id}) => {
   useEffect(() => {
     if (project_id) {
       axiosInstance(token)
-        .get(`/${project_id}/getLowStockByProjectId`)
+        .get(`/getLowStockByProjectId?project_id=${project_id}`)
         .then(({data}) => {
           setLowStocks(data.data);
         });

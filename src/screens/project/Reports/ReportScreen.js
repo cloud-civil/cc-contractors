@@ -73,8 +73,7 @@ const ReportScreen = ({route}) => {
 
   async function getStocksByProjectId() {
     const response = await axiosInstance(token).get(
-      // `/${project_id}/getAllStocksForProject`,
-      `/getAllStockUsageReportByProjectId/${project_id}`,
+      `/getAllStockUsageReportByProjectId?project_id=${project_id}`,
     );
     setStockData(response.data.data);
     setLoading(false);
@@ -82,21 +81,21 @@ const ReportScreen = ({route}) => {
 
   async function getVendorPaymentByProjectId() {
     const response = await axiosInstance(token).get(
-      `/${project_id}/getAllVendorPayment`,
+      `/getAllVendorPayment?project_id=${project_id}`,
     );
     setVendorPaymentData(response.data.data);
   }
 
   async function getPODeliveryByProjectId() {
     const response = await axiosInstance(token).get(
-      `/${project_id}/getAllPurchasedOrderByProjectId`,
+      `/getAllPurchasedOrderByProjectId?project_id=${project_id}`,
     );
     setPODeliveryData(response.data.data);
   }
 
   async function getUserExpenseProjectId() {
     const response = await axiosInstance(token).get(
-      `/${project_id}/getAllUserExpense`,
+      `/getAllUserExpense?project_id=${project_id}`,
     );
     setUserExpenseData(response.data.data);
   }

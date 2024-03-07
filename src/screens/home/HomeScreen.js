@@ -40,7 +40,9 @@ const HomeScreen = () => {
   useEffect(() => {
     if (authUser.phone) {
       axiosInstance(token)
-        .get(`/${userOrg.org_id}/${authUser.user_id}/getProjectsOfUser`)
+        .get(
+          `/getProjectsOfUser?org_id=${userOrg.org_id}&user_id=${authUser.user_id}`,
+        )
         .then(response => {
           const projects = parseProjects(response.data.data);
           dispatch(setProjects(projects));
@@ -56,10 +58,14 @@ const HomeScreen = () => {
     if (userOrg && userOrg.org_id) {
       // eslint-disable-next-line no-undef
       Promise.all([
-        axiosInstance(token).get(`/${userOrg.org_id}/getAssetsByOrgId`),
-        axiosInstance(token).get(`/${userOrg.org_id}/getVendorsByOrgId`),
-        axiosInstance(token).get(`/${userOrg.org_id}/getContractorsByOrgId`),
-        axiosInstance(token).get(`/${userOrg.org_id}/getUsersOfOrganization`),
+        axiosInstance(token).get(`/getAssetsByOrgId?org_id=${userOrg.org_id}`),
+        axiosInstance(token).get(`/getVendorsByOrgId?org_id=${userOrg.org_id}`),
+        axiosInstance(token).get(
+          `/getContractorsByOrgId?org_id=${userOrg.org_id}`,
+        ),
+        axiosInstance(token).get(
+          `/getUsersOfOrganization?org_id=${userOrg.org_id}`,
+        ),
       ])
         .then(([response1, response2, response3, response4]) => {
           dispatch(

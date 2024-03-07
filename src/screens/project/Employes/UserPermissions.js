@@ -1,4 +1,5 @@
-import {useEffect, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {axiosInstance} from '../../../apiHooks/axiosInstance';
 import {
@@ -43,12 +44,16 @@ const UserPermissions = ({route}) => {
         setRowTables(data.data);
       });
     axiosInstance(token)
-      .get(`/pem/${project_id}/${user_id}/getAllUserTablePermissions`)
+      .get(
+        `/pem/getAllUserTablePermissions?project_id=${project_id}&user_id=${user_id}`,
+      )
       .then(({data}) => {
         setUserTablePermissions(data.data);
       });
     axiosInstance(token)
-      .get(`/pem/${project_id}/${user_id}/getAllUserRolesForProject`)
+      .get(
+        `/pem/getAllUserRolesForProject?project_id=${project_id}&user_id=${user_id}`,
+      )
       .then(({data}) => {
         setState({
           user_roles: JSON.parse(data.data[0].role),

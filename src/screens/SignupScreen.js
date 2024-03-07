@@ -53,7 +53,12 @@ const SignupScreen = ({navigation}) => {
             text1: 'Failed',
             text2: err?.response?.data?.message,
           });
-          console.log(err, '/signup', err?.response?.data?.message);
+          console.log(
+            err,
+            '/signup',
+            err?.response?.data?.message,
+            JSON.stringify(err),
+          );
         });
     }
   };

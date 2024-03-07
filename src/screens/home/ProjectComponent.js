@@ -33,12 +33,7 @@ const ProjectComponent = ({
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
+      <View style={customStyle.flexRow}>
         <TouchableOpacity
           onPress={() => {
             CodePush.restartApp();
@@ -52,9 +47,7 @@ const ProjectComponent = ({
         </TouchableOpacity>
         {authUser.user_id === userOrg.user_id && (
           <TouchableOpacity onPress={() => setShowCreateProjectModal(true)}>
-            <Text style={{color: Colors.primary, fontWeight: '600'}}>
-              Create Project
-            </Text>
+            <Text style={customStyle.createProject}>Create Project</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -138,6 +131,11 @@ const ProjectComponent = ({
 };
 
 const customStyle = StyleSheet.create({
+  flexRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   projectCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -154,6 +152,7 @@ const customStyle = StyleSheet.create({
     fontWeight: '500',
     marginBottom: 'auto',
   },
+  createProject: {color: Colors.primary, fontWeight: '600'},
 });
 
 const CreateProjectButton = ({authUser, userOrg, handleCreateProject}) => {

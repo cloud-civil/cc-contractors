@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
 import {axiosInstance} from '../../../../apiHooks/axiosInstance';
 import {ActivityIndicator, FlatList, Text, View} from 'react-native';
 import styles from '../../../../styles/styles';
@@ -30,7 +31,9 @@ const AllowanceRequests = props => {
 
   useEffect(() => {
     axiosInstance(token)
-      .get(`/expense/${project_id}/getAllUserAllowanceRequestsOfProject`)
+      .get(
+        `/expense/getAllUserAllowanceRequestsOfProject?project_id=${project_id}`,
+      )
       .then(({data}) => {
         setRequets(data.data);
         setIsLoading(false);

@@ -40,20 +40,16 @@ const TaskProgress = props => {
   useFocusEffect(
     useCallback(() => {
       axiosInstance(token)
-        .get(`/${project_id}/getTaskCategories`)
+        .get(`/getTaskCategories?project_id=${project_id}`)
         .then(({data}) => {
-          const {tasks: tasks_} = data.data;
-          setTasks(tasks_);
+          const {tasks} = data.data;
+          setTasks(tasks);
           setLoading(false);
-          const d = getGroupTasks(tasks_);
+          const d = getGroupTasks(tasks);
           dispatch(setGroupTasks({project_id, data: d}));
         })
         .catch(err => {
-          console.error(
-            err,
-            '/getTaskCategories',
-            err?.response?.data?.message,
-          );
+          console.error(JSON.stringify(err));
         });
     }, [reRender]),
   );

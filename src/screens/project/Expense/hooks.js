@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useState, useEffect} from 'react';
 import {axiosInstance} from '../../../apiHooks/axiosInstance';
 import {getGroupTasks} from '../Tasks/utils';
@@ -9,11 +10,11 @@ export const useBillHooks = ({project_id, activeContractor, token}) => {
     taskCategoriesAsGroup: null,
     taskCategoriesAsObject: null,
   });
-  console.log('activeContractor', activeContractor);
+
   useEffect(() => {
     if (activeContractor && activeContractor.contractor_id) {
       axiosInstance(token)
-        .get(`/${project_id}/getTaskCategories`)
+        .get(`/getTaskCategories?project_id=${project_id}`)
         .then(({data}) => {
           const {task_categories, tasks} = data.data;
           console.log('response data', project_id, task_categories);

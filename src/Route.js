@@ -1,4 +1,5 @@
-import {useEffect, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
@@ -34,8 +35,12 @@ const logErrorToService = async (error, errorInfo, stateToken) => {
     }),
   })
     .post('/createErrorLog')
-    .catch(() => {})
-    .catch(err => console.error(err));
+    .catch(err => {
+      console.error(err, '/createErrorLog1', err?.response?.data?.message);
+    })
+    .catch(err =>
+      console.error(err, '/createErrorLog', err?.response?.data?.message),
+    );
 };
 
 const ErrorBoundary = ({children, stateToken}) => {
@@ -147,6 +152,7 @@ export default function Route() {
   const authUser = useSelector(state => state.auth.user);
   const userOrg = useSelector(state => state.auth.org);
   const [stateToken, setStateToken] = useState('');
+
   useEffect(() => {
     if (auth === AUTH_SETTINGS.INIT) {
       getApi();
@@ -172,8 +178,9 @@ export default function Route() {
         );
         setStateToken(data.token);
       })
-      .catch(() => {
+      .catch(err => {
         dispatch(loginFailed());
+        console.log(err, 'getUserSession');
       });
   };
 

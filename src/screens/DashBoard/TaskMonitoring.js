@@ -1,4 +1,5 @@
-import {useEffect, useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react';
 import {Dimensions, View} from 'react-native';
 import {Text} from 'react-native';
 import {axiosInstance} from '../../apiHooks/axiosInstance';
@@ -21,7 +22,7 @@ const TaskMnitoring = ({project_id}) => {
   useEffect(() => {
     if (project_id) {
       axiosInstance(token)
-        .get(`/${project_id}/getTaskNotCompletedByProjectId`)
+        .get(`/getTaskNotCompletedByProjectId?project_id=${project_id}`)
         .then(({data}) => {
           setNotCompletedTasks(data.data);
         });
