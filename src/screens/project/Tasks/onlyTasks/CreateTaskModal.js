@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import CustomModal from '../../../../components/CustomModal';
-import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import {useSelector, shallowEqual} from 'react-redux';
 import {axiosInstance} from '../../../../apiHooks/axiosInstance';
 import styles from '../../../../styles/styles';
 import {units} from '../../../../utils/constants';
@@ -9,14 +9,12 @@ import DateTimePicker from 'react-native-ui-datepicker';
 import {formatDate} from '../../../../utils';
 import {CustomFormButton} from '../../../../components/CustomButton';
 import Colors from '../../../../styles/Colors';
-import {addNewTask} from '../../../../cc-hooks/src/taskSlice';
 import Toast from 'react-native-toast-message';
 import Input from '../../../../components/Input';
 import CustomDropdown from '../../../../components/CustomDropdown';
 
 const FormComponent = props => {
-  const {project_id, setActivity, activeGroupId} = props;
-  const dispatch = useDispatch();
+  const {project_id, setActivity, setRender} = props;
   const token = useSelector(state => state.auth.token, shallowEqual);
   const __users = useSelector(state => state.app.users, shallowEqual);
   const userArray = __users.asArray;
@@ -44,20 +42,13 @@ const FormComponent = props => {
       completed: 0,
       project_id: parseInt(project_id),
       status: 'idle',
-      parent_id: activeGroupId,
+      // parent_id: activeGroupId,
       user_id: parseInt(user_id, 10),
     };
     axiosInstance(token)
       .post('/createTaskForProject', data)
-      .then(res => {
-        const newTaskId = res.data.data[0].task_id;
-        dispatch(
-          addNewTask({
-            project_id,
-            parent_id: activeGroupId,
-            data: {...data, task_id: newTaskId},
-          }),
-        );
+      .then(() => {
+        setRender(prev => prev + 1);
         setActivity(prev => ({
           ...prev,
           showCreateTaskModal: false,

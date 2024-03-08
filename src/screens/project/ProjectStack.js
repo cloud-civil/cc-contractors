@@ -20,7 +20,6 @@ import {setPermissions} from '../../cc-hooks/src/authSlice';
 import {createStackNavigator} from '@react-navigation/stack';
 import {GroupTaskCategories} from './Tasks/utils';
 import {setTaskCategories, setTaskStocks} from '../../cc-hooks/src/taskSlice';
-import TaskScreen from './Tasks/TaskScreen';
 import TaskDoneHistory from './Tasks/TaskdoneHistory';
 import TaskStockHistory from './Tasks/TaskStockHistory';
 import TaskDoneDetails from './Tasks/TaskDoneDetails';
@@ -40,6 +39,7 @@ import VendorAttendance from './Attendance/VendorAttendance';
 import AttendanceScreen from './Attendance/AttendanceScreen';
 import StockIssueHistory from './Stocks/in-hand/StockIssueHistory';
 import TaskComponent from './Tasks/onlyTasks/TaskComponent';
+import OnlyTaskScreen from './Tasks/OnlyTaskScreen';
 
 const Stack = createStackNavigator();
 
@@ -293,7 +293,7 @@ const ProjectStack = ({route}) => {
       />
       <Stack.Screen
         name="tasks"
-        component={TaskScreen}
+        component={OnlyTaskScreen}
         options={{
           headerShown: false,
         }}

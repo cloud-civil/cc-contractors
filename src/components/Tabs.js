@@ -130,7 +130,9 @@ const Tabs = ({
                           activeTab === item
                             ? customStyle.activeTabText
                             : customStyle.tabText,
-                          {maxHeight: Platform.OS === 'android' ? 21 : 20},
+                          {
+                            maxHeight: Platform.OS === 'android' ? 21 : 20,
+                          },
                         ]}>
                         {icons[index]}
                       </Text>

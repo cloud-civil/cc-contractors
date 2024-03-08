@@ -1,30 +1,25 @@
 import {useEffect, useState} from 'react';
 import CustomModal from '../../../../components/CustomModal';
 import {Text, TouchableOpacity, View} from 'react-native';
-// import {TouchableOpacity} from 'react-native-gesture-handler';
-
 import styles from '../../../../styles/styles';
 import {units} from '../../../../utils/constants';
-import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+import {shallowEqual, useSelector} from 'react-redux';
 import {formatDate} from '../../../../utils';
 import DateTimePicker from 'react-native-ui-datepicker';
 import {CustomFormButton} from '../../../../components/CustomButton';
 import Colors from '../../../../styles/Colors';
 import {axiosInstance} from '../../../../apiHooks/axiosInstance';
-import {editTask} from '../../../../cc-hooks/src/taskSlice';
 import Toast from 'react-native-toast-message';
 import Input from '../../../../components/Input';
 import CustomDropdown from '../../../../components/CustomDropdown';
 
 const FormComponent = props => {
-  const {setActivity, activity, activeGroupId, project_id} = props;
-  const dispatch = useDispatch();
+  const {setActivity, activity, setRender} = props;
   const token = useSelector(state => state.auth.token, shallowEqual);
   const __users = useSelector(state => state.app.users, shallowEqual);
   const userArray = __users.asArray;
 
   const [name, setName] = useState('');
-  // const [budget, setBudget] = useState('');
   const [target, setTarget] = useState(0);
   const [unit, setUnit] = useState('');
   const [user_id, setUserId] = useState('');
@@ -81,11 +76,12 @@ const FormComponent = props => {
           text1: 'success',
           text2: `Task ${name} edited succesfully.`,
         });
-        dispatch(editTask({task: data, project_id, parent_id: activeGroupId}));
+        setRender(prev => prev + 1);
+        // dispatch(editTask({task: data, project_id, parent_id: activeGroupId}));
         resetFields();
       })
       .catch(() => {
-        dispatch(editTask({task: data, project_id, parent_id: activeGroupId}));
+        // dispatch(editTask({task: data, project_id, parent_id: activeGroupId}));
         Toast.show({
           type: 'error',
           text1: 'Failed',
@@ -112,6 +108,7 @@ const FormComponent = props => {
           value={target.toString()}
           label="Target"
           onChangeText={setTarget}
+          keyboardType="numeric"
         />
         <CustomDropdown
           label={unitName}

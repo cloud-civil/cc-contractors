@@ -66,6 +66,15 @@
             ReferencedContainer = "container:cloudcivil__contractor.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+            BuildableName = "cloudcivil_contractor.app"
+            BlueprintName = "cloudcivil_contractor"
+            ReferencedContainer = "container:cloudcivil__contractor.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

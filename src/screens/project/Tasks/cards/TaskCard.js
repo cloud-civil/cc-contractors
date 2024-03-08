@@ -1,4 +1,3 @@
-import React from 'react';
 import SizeButton from '../../../../components/SizeButton';
 import {View, Text, Dimensions} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -27,25 +26,10 @@ const TaskCard = ({
           activeGroupId,
         });
       }}>
-      <View style={styles.card}>
-        <View
-          style={[
-            styles.assIcon,
-            {
-              width: '14%',
-              height: Dimensions.get('window').width * 0.13,
-            },
-          ]}>
-          <MaterialCommunityIcons
-            name="transit-transfer"
-            color="white"
-            size={30}
-          />
-        </View>
-        <View style={{width: '82%', marginLeft: 10}}>
+      <View style={[styles.cardBorder, {borderBottomWidth: 1}]}>
+        <View style={{width: '100%'}}>
           <View
             style={{
-              width: '100%',
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
@@ -53,7 +37,6 @@ const TaskCard = ({
               numberOfLines={1}
               style={{
                 fontWeight: 600,
-                width: '60%',
               }}>
               {item.name}{' '}
             </Text>
@@ -73,7 +56,7 @@ const TaskCard = ({
             </Text>
             <LinearProgressBar
               progress={progress || 0}
-              width={Dimensions.get('window').width * 0.65}
+              width={Dimensions.get('window').width * 0.82}
               height={4}
               color={
                 progress && progress >= 60

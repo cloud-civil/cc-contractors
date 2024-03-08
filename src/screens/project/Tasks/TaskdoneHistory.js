@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
 import {useEffect, useState} from 'react';
 import {View, Text, FlatList, ActivityIndicator, Alert} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';

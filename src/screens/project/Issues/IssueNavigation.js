@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {shallowEqual, useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
@@ -20,7 +18,7 @@ import {UpdateIssueModal} from './UpdateIssueModal';
 import {EditIssueModal} from './EditIssueModal';
 import useDeleteIssue from './hooks/useDeleteIssue';
 
-const tabs = ['New Issues', 'In Progress', 'On Hold', 'Done'];
+const tabs = ['Recent', 'In Progress', 'On Hold', 'Done'];
 
 const IssueNavigation = ({route}) => {
   const {project_id} = route.params;

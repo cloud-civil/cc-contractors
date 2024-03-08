@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,6 @@ import {
   CustomFormIconButton,
 } from '../../../components/CustomButton';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {setGroupTasks, setTaskStocks} from '../../../cc-hooks/src/taskSlice';
 import {resetImages} from '../../../cc-hooks/src/imageSlice';
 import Toast from 'react-native-toast-message';
 import {takePicture} from '../../../utils/camera';
@@ -22,19 +21,10 @@ import Input from '../../../components/Input';
 import UploadImageComponent from '../../../components/UploadImageComponent';
 
 const FormComponent = props => {
-  const {
-    project_id,
-    activity,
-    setActivity,
-    activeGroupId: x,
-    setRender,
-    reRender,
-  } = props;
+  const {project_id, activity, setActivity, setRender} = props;
   const dispatch = useDispatch();
-  const activeGroupId = x === 'main' ? activity.activeTask.parent_id : x;
   const authUser = useSelector(state => state.auth.user, shallowEqual);
   const token = useSelector(state => state.auth.token, shallowEqual);
-  const taskStocks = useSelector(state => state.task.taskStocks, shallowEqual);
   const [__completed, setTaskDone] = useState('0');
   const [remarks, setRemarks] = useState('');
   const userOrg = useSelector(state => state.auth.org, shallowEqual);
@@ -42,7 +32,6 @@ const FormComponent = props => {
     state => state.image.uploadedUrls,
     shallowEqual,
   );
-  const groupTasks = useSelector(state => state.task.groupTasks, shallowEqual);
   const [imageUploadLoading, setImageUploadLoading] = useState(false);
 
   const handleTakePicture = async () => {
@@ -66,7 +55,6 @@ const FormComponent = props => {
       project_id,
       org_id: userOrg.org_id,
       task_id: activity.activeTask.task_id,
-      group_id: activeGroupId,
       user_id: authUser.user_id,
       completed: parseFloat(completed || 0),
       stocks: [],
@@ -77,31 +65,14 @@ const FormComponent = props => {
     };
     axiosInstance(token)
       .post('/taskCompleted', submitData)
-      .then(({data}) => {
+      .then(() => {
         Toast.show({
           type: 'success',
           text1: 'Success',
           text2: 'Task updated succesfully.',
         });
-        const newObj = JSON.parse(
-          JSON.stringify(groupTasks[project_id].asObject),
-        );
-        const newArr = newObj[activeGroupId].map(item => {
-          if (item.task_id === activity.activeTask.task_id) {
-            return {...item, completed: item.completed + (completed || 0)};
-          }
-          return item;
-        });
-        newObj[activeGroupId] = newArr;
-        dispatch(setGroupTasks({project_id, data: newObj}));
-        dispatch(
-          setTaskStocks({
-            project_id,
-            data: [...taskStocks[project_id], ...data.task_stocks],
-          }),
-        );
-        if (setRender && reRender !== undefined) {
-          setRender(reRender + 1);
+        if (setRender) {
+          setRender(prev => prev + 1);
         }
         resetFields();
       })
