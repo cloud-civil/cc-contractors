@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import DocumentScreen from './DocumentScreen';
 import ReportScreen from './Reports/ReportScreen';
 import AssetNavigation from './Assets/AssetNavigation';
@@ -37,7 +36,6 @@ import Employes from './Employes/EmployesScreen';
 import AddEmploye from './Employes/AddEmployee';
 import UserPermissions from './Employes/UserPermissions';
 import IssueNavigation from './Issues/IssueNavigation';
-import IssueCommnet from './Issues/comments/IssueCommnet';
 import VendorAttendance from './Attendance/VendorAttendance';
 import AttendanceScreen from './Attendance/AttendanceScreen';
 import StockIssueHistory from './Stocks/in-hand/StockIssueHistory';
@@ -245,14 +243,6 @@ const ProjectStack = ({route}) => {
           headerLeft: GoBack,
         }}
       />
-      {/* <Stack.Screen
-        name="IssueComment"
-        component={IssueCommnet}
-        initialParams={route.params}
-        options={{
-          headerShown: false,
-        }}
-      /> */}
       <Stack.Screen
         name="reports"
         component={ReportScreen}

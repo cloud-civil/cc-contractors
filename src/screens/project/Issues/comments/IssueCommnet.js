@@ -192,14 +192,13 @@ const IssueCommnet = ({route}) => {
                 if (item.skeleton) {
                   return <ImageLoadingSkeleton key={item.id} />;
                 } else {
-                  const {data: image} = item;
                   return (
                     <View
                       style={{marginRight: 10, position: 'relative'}}
                       key={item.id}>
                       <Image
                         source={{
-                          uri: `${IMAGE_URL}/previewUploadedImage/thumbnail-${image.fullName}`,
+                          uri: `${IMAGE_URL}/previewUploadedImage/thumbnail-${item.fullName}`,
                           headers: {
                             Authorization: token,
                           },

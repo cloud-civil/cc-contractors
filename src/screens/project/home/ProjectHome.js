@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {
   View,
   Text,
@@ -130,17 +130,52 @@ const ProjectHome = ({route}) => {
             // if (settings && !settings[item.table_id]) {
             //   return null;
             // }
+            let enabled = true;
+            if (
+              item.table_id === 1019 ||
+              item.table_id === 1014 ||
+              item.table_id === 1001
+            ) {
+              //
+            } else {
+              enabled = false;
+            }
+
             return (
-              <TouchableOpacity
-                onPress={() => navigation.navigate(item.value)}
-                key={item.id}>
-                <View style={customStyle.navButton}>
-                  {item.icon}
-                  <Text style={{marginLeft: 8, textTransform: 'capitalize'}}>
-                    {item.name}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              <View
+                key={item.id}
+                style={{
+                  position: 'relative',
+                  marginRight: 10,
+                  marginTop: 10,
+                  opacity: enabled ? 1 : 0.5,
+                }}>
+                {/* {!enabled && (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      zIndex: 1,
+                      right: 6,
+                      top: -8,
+                    }}>
+                    <MaterialIcons name="lock-outline" size={16} />
+                  </View>
+                )} */}
+                <TouchableOpacity
+                  // disabled={enabled ? false : true}
+                  onPress={() => navigation.navigate(item.value)}>
+                  <View style={customStyle.navButton}>
+                    {enabled ? (
+                      item.icon
+                    ) : (
+                      <MaterialIcons name="lock-outline" size={16} />
+                    )}
+                    <Text style={{marginLeft: 8, textTransform: 'capitalize'}}>
+                      {item.name}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
             );
           }}
         />
@@ -163,7 +198,6 @@ const customStyle = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     backgroundColor: '#f2f2f2',
-    marginRight: 8,
     borderRadius: 20,
     flexDirection: 'row',
     alignItems: 'center',

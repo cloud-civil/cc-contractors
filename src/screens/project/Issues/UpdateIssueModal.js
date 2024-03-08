@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
 import {FlatList, Image, Text, View} from 'react-native';
-import styles from '../../../styles/styles';
-import SelectDropdown from 'react-native-select-dropdown';
-import Colors from '../../../styles/Colors';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {CustomButton} from '../../../components/CustomButton';
+import {
+  CustomFormButton,
+  CustomFormIconButton,
+} from '../../../components/CustomButton';
 import {axiosInstance} from '../../../apiHooks/axiosInstance';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 import CustomModal from '../../../components/CustomModal';
@@ -15,6 +15,7 @@ import {takePicture} from '../../../utils/camera';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {ImageLoadingSkeleton} from '../../../components/Skeleton';
 import {IMAGE_URL} from '@env';
+import CustomDropdown from '../../../components/CustomDropdown';
 
 const FormComponent = props => {
   const {setActivity, activity, project_id, setRender, token, userOrg} = props;
@@ -113,83 +114,38 @@ const FormComponent = props => {
         <View
           style={{
             flexDirection: 'row',
-            marginBottom: 10,
-            alignItems: 'center',
+            alignItems: 'flex-start',
           }}>
-          <SelectDropdown
-            buttonStyle={[
-              styles.dropdownButtonStyle,
-              {width: '82%', marginTop: 0, marginBottom: 0},
-            ]}
-            buttonTextStyle={styles.dropdownButtonText}
-            defaultButtonText="Select Status"
-            renderDropdownIcon={() => (
-              <MaterialIcons
-                name="keyboard-arrow-down"
-                size={24}
-                color={'#666'}
-              />
-            )}
-            renderSearchInputLeftIcon={() => (
-              <MaterialIcons name="search" size={20} />
-            )}
-            dropdownStyle={{
-              borderRadius: 8,
-            }}
+          <CustomDropdown
+            style={{marginRight: 10}}
+            label="Select Status"
             data={['idle', 'in_progress', 'on_hold', 'done']}
-            onSelect={selectedItem => {
+            onSelect={item => {
               setFormData({
                 ...formData,
-                status: selectedItem,
+                status: item,
               });
             }}
-            buttonTextAfterSelection={selectedItem => {
-              return (
-                <Text>
-                  {selectedItem === 'idle'
-                    ? 'Idle'
-                    : selectedItem === 'in_progress'
-                    ? 'In Progress'
-                    : selectedItem === 'done'
-                    ? 'Done'
-                    : selectedItem === 'on_hold'
-                    ? 'On Hold'
-                    : 'Select Status'}
-                </Text>
-              );
-            }}
-            rowTextForSelection={item => {
-              return (
-                <Text>
-                  {item === 'idle'
-                    ? 'Idle'
-                    : item === 'in_progress'
-                    ? 'In Progress'
-                    : item === 'done'
-                    ? 'Done'
-                    : item === 'on_hold'
-                    ? 'On Hold'
-                    : 'Select Priority'}
-                </Text>
-              );
+            renderDisplayItem={item => {
+              const name =
+                item === 'idle'
+                  ? 'Idle'
+                  : item === 'in_progress'
+                  ? 'In Progress'
+                  : item === 'done'
+                  ? 'Done'
+                  : item === 'on_hold'
+                  ? 'On Hold'
+                  : 'Select Priority';
+              return name;
             }}
           />
-          <View style={{flex: 1}}>
-            <CustomButton
-              buttonStyle={{
-                backgroundColor: Colors.primary,
-                height: 48,
-                width: 48,
-                borderRadius: 10,
-                marginLeft: 'auto',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              onClick={handleTakePicture}>
-              <MaterialIcons name="camera-alt" size={22} color={'white'} />
-            </CustomButton>
-          </View>
+          <CustomFormIconButton
+            disabled={imageUploadLoading}
+            onClick={handleTakePicture}
+            style={{marginRight: 0, marginTop: 6}}>
+            <MaterialIcons name="camera-alt" size={22} color={'white'} />
+          </CustomFormIconButton>
         </View>
       </View>
 
@@ -204,17 +160,19 @@ const FormComponent = props => {
         }
         horizontal={true}
         renderItem={({item}) => {
+          console.log(
+            `${IMAGE_URL}/previewUploadedImage/thumbnail-${item.fullName}`,
+          );
           if (item.skeleton) {
             return <ImageLoadingSkeleton key={item.id} />;
           } else {
-            const {data: image} = item;
             return (
               <View
                 style={{marginRight: 10, position: 'relative'}}
                 key={item.id}>
                 <Image
                   source={{
-                    uri: `${IMAGE_URL}/previewUploadedImage/thumbnail-${image.fullName}`,
+                    uri: `${IMAGE_URL}/previewUploadedImage/thumbnail-${item.fullName}`,
                     headers: {
                       Authorization: token,
                     },
@@ -245,18 +203,9 @@ const FormComponent = props => {
       />
 
       <View>
-        <CustomButton
-          buttonStyle={{
-            backgroundColor: Colors.primary,
-            borderRadius: 8,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingVertical: 12,
-          }}
-          onClick={onUpdate}>
+        <CustomFormButton disabled={imageUploadLoading} onClick={onUpdate}>
           <Text style={{color: 'white', fontSize: 16}}>Comment</Text>
-        </CustomButton>
+        </CustomFormButton>
       </View>
     </View>
   );
